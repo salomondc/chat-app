@@ -32,7 +32,7 @@ export const ChatHistory: React.FC<{ slug?: string }> = ({ slug }) => {
 				.getElementById(`chat-${slug}`)
 				?.scrollIntoView({ block: "center" });
 		}
-	}, []);
+	}, [slug]);
 
 	return (
 		<div className="flex-grow flex flex-col gap-4 overflow-auto ">

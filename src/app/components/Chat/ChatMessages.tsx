@@ -53,7 +53,9 @@ const AudioRecording = () => {
 	};
 
 	const onPlayPause = () => {
-		wavesurfer && wavesurfer.playPause();
+		if (wavesurfer) {
+			wavesurfer.playPause();
+		}
 	};
 
 	const duration = wavesurfer?.media.duration;

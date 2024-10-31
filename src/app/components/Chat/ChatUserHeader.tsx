@@ -27,7 +27,7 @@ export const ChatUserHeader = () => {
 	);
 };
 
-export const FloatingMenu = ({}) => {
+const FloatingMenu = ({}) => {
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
