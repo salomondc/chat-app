@@ -1,9 +1,9 @@
 "use client";
 import { Button, IconButton, Popover } from "@mui/material";
 import { useState } from "react";
-import { Icons } from ".";
+import { Icons } from "..";
 
-export const FloatingMenu = ({}) => {
+export const FloatingInsertMediaMenu = ({}) => {
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -15,6 +15,8 @@ export const FloatingMenu = ({}) => {
 	};
 
 	const open = Boolean(anchorEl);
+
+	// Hide ID so e-readers don't detect the menu if it's closed
 	const id = open ? "insert-menu" : undefined;
 
 	return (

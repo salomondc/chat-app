@@ -4,9 +4,10 @@ import { useState } from "react";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { Button, Icons, TextField } from "..";
-import { focusInputOnEmpty } from "@/utils/focusInputOnEmpty";
+import { focusInputOnEmpty } from "@/utils/focusInputIfEmpty";
 import { useRouter } from "next/navigation";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import Link from "next/link";
 
 export const LoginForm = () => {
 	const [hidePassword, setHidePassword] = useState(true);
@@ -19,6 +20,7 @@ export const LoginForm = () => {
 	});
 
 	const handleVerify = (token: string) => {
+		// Token should be also sent to the server to validate
 		setFieldValue("captcha", token);
 	};
 
@@ -38,7 +40,7 @@ export const LoginForm = () => {
 		},
 		validationSchema: validationSchema,
 		onSubmit: () => {
-			// alert(JSON.stringify(values, null, 2));
+			// console.log(values)
 			router.push("/chat");
 		},
 	});
@@ -119,10 +121,12 @@ export const LoginForm = () => {
 				Sign in with Facebook
 			</Button>
 			<span className="text-lg font-medium mx-auto mt-2">
-				Don’t you have an account?{" "}
-				<span className="ml-auto text-primary-100 hover:underline cursor-pointer active:opacity-50 select-none">
+				Don’t have an account?{" "}
+				<Link
+					href={"#"}
+					className="ml-auto text-primary-100 hover:underline cursor-pointer active:opacity-50 select-none">
 					Sign up
-				</span>
+				</Link>
 			</span>
 		</form>
 	);

@@ -11,7 +11,7 @@ export const ChatHistory: React.FC<{ slug?: string }> = ({ slug }) => {
 	const { isMobile } = useMobileCheck();
 	const router = useRouter();
 
-	const slideToChat = (
+	const waitForAnimationOnMobile = (
 		e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
 		url: string
 	) => {
@@ -26,6 +26,7 @@ export const ChatHistory: React.FC<{ slug?: string }> = ({ slug }) => {
 		}
 	};
 
+	// Scroll to currently selected chat
 	useEffect(() => {
 		if (slug) {
 			document
@@ -48,7 +49,7 @@ export const ChatHistory: React.FC<{ slug?: string }> = ({ slug }) => {
 								href={`/chat/${item.id}`}
 								id={`chat-${item.id.toString()}`}
 								key={item.id}
-								onClick={(e) => slideToChat(e, `/chat/${item.id}`)}
+								onClick={(e) => waitForAnimationOnMobile(e, `/chat/${item.id}`)}
 								className={`${
 									isSelected ? "" : "text-dark-secondary"
 								} cursor-pointer hover:text-foreground mr-auto`}>

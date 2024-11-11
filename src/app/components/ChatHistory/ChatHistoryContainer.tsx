@@ -16,7 +16,7 @@ export const ChatHistoryContainer: React.FC<{ slug?: string }> = ({ slug }) => {
 	const router = useRouter();
 	useNoHoverOnMobile();
 
-	const slideToChat = (url: string) => {
+	const waitForAnimationOnMobile = (url: string) => {
 		if (isMobile) {
 			setIsOpen(false);
 			setTimeout(() => {
@@ -49,7 +49,7 @@ export const ChatHistoryContainer: React.FC<{ slug?: string }> = ({ slug }) => {
 					className="mx-auto max-md:ml-0 max-md:w-[110px]"
 				/>
 				<Button
-					onClick={() => slideToChat("/chat")}
+					onClick={() => waitForAnimationOnMobile("/chat")}
 					aria-label="new chat"
 					variant="outlined"
 					className="flex gap-2 text-lg font-semibold normal-case font-urbanist text-primary-100 border-primary-100 bg-primary-100/10 rounded-xl">
