@@ -3,7 +3,11 @@ import { Button, IconButton, Popover } from "@mui/material";
 import { useState } from "react";
 import { Icons } from "..";
 
-export const FloatingInsertMediaMenu = ({}) => {
+interface Props {
+	disabled?: boolean;
+}
+
+export const FloatingInsertMediaMenu: React.FC<Props> = ({ disabled }) => {
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,9 +28,10 @@ export const FloatingInsertMediaMenu = ({}) => {
 			<IconButton
 				size="small"
 				aria-describedby={id}
+				disabled={disabled}
 				aria-label="insert attachment"
 				edge="start"
-				className={`px-2 mx-0.5 ${open ? "bg-black/5" : ""}`}
+				className={`px-2 max-md:px-4 mx-0.5 ${open ? "bg-black/5" : ""}`}
 				onClick={handleClick}>
 				<Icons.Paperclip />
 			</IconButton>

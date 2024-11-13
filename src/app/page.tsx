@@ -6,8 +6,8 @@ import {
 	ChatVersion,
 	LoginContainer,
 	WelcomeMessage,
-} from "./components";
-import { useNoHoverOnMobile } from "./utils/useNoHoverOnMobile";
+} from "@/components";
+import { useNoHoverOnMobile } from "@/utils/useNoHoverOnMobile";
 
 export default function Home() {
 	useNoHoverOnMobile();

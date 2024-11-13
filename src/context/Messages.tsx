@@ -1,0 +1,32 @@
+"use client";
+import { createContext, useContext, useState } from "react";
+
+export interface Message {
+	agent_status?: string;
+	user_message?: string;
+	agent_message?: string;
+}
+
+interface MessagesContextType {
+	messages: Message[];
+	setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+}
+
+const MessagesContext = createContext<MessagesContextType>({
+	messages: [],
+	setMessages: () => {},
+});
+
+export const MessagesProvider: React.FC<{ children: React.ReactNode }> = ({
+	children,
+}) => {
+	const [messages, setMessages] = useState<Message[]>([]);
+
+	return (
+		<MessagesContext.Provider value={{ messages, setMessages }}>
+			{children}
+		</MessagesContext.Provider>
+	);
+};
+
+export const useMessages = () => useContext(MessagesContext);
