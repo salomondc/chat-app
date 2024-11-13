@@ -5,6 +5,7 @@ import { useMessages } from "@/context/Messages";
 import { IconButton } from "@mui/material";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { MarkdownRenderer } from "./MarkdownRenderer";
 
 interface Props {
 	text: string;
@@ -15,13 +16,12 @@ interface Props {
 export const ChatResponse: React.FC<Props> = ({ text, time, pending }) => {
 	const { setMessages } = useMessages();
 	const queryClient = useQueryClient();
-
 	const { data, isFetching } = useQuery({
 		queryKey: ["agent_message"],
 		queryFn: getLatestMessage,
 		enabled: Boolean(pending),
 		refetchInterval: (query) => {
-			return query.state.data?.agent_status == "agent_thinking" ? 3000 : false;
+			return query.state.data?.agent_message ? false : 3000;
 		},
 		refetchOnWindowFocus: false,
 	});
@@ -46,10 +46,17 @@ export const ChatResponse: React.FC<Props> = ({ text, time, pending }) => {
 	return (
 		<div className="mr-auto flex gap-2">
 			<Icons.Logo className="shrink-0" />
-			<div className="flex flex-col mr-auto gap-1">
-				<div className="border px-3 py-2 rounded-xl max-w-3xl">
-					{pending ? <Icons.Loading /> : text}
-				</div>
+			<div className="flex flex-col mr-auto gap-1 max-w-4xl">
+				{pending ? (
+					<div className="border px-3 py-2 rounded-xl">
+						{" "}
+						<Icons.Loading />{" "}
+					</div>
+				) : (
+					<div className="border px-3 py-2 rounded-xl max-w-[calc(100dvw-30rem)] max-md:max-w-[calc(100dvw-85px)] prose">
+						<MarkdownRenderer>{text}</MarkdownRenderer>
+					</div>
+				)}
 				<div className={`flex items-center ${pending ? "hidden" : ""}`}>
 					<IconButton aria-label="copy">
 						<Icons.Copy />
