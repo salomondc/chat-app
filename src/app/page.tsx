@@ -20,7 +20,7 @@ export default function Home() {
 					<div className="flex flex-grow">
 						<WelcomeMessage />
 					</div>
-					<ChatInput />
+					<ChatInput disabled />
 					<ChatVersion />
 				</ChatContainer>
 			</div>

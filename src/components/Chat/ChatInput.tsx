@@ -6,7 +6,11 @@ import { useMessages } from "@/context/Messages";
 import { sendMessage } from "@/api/chat";
 import { useMutation } from "@tanstack/react-query";
 
-export const ChatInput = () => {
+interface Props {
+	disabled?: boolean;
+}
+
+export const ChatInput: React.FC<Props> = ({ disabled }) => {
 	const [value, setValue] = useState("");
 	const { messages, setMessages } = useMessages();
 	const mutateSendMessage = useMutation({
@@ -63,7 +67,7 @@ export const ChatInput = () => {
 					ref={inputRef}
 					type="text"
 					value={value}
-					disabled={isLoading}
+					disabled={isLoading || disabled}
 					onFocus={(e) => {
 						e.target.scrollIntoView();
 					}}

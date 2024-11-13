@@ -10,14 +10,15 @@ import {
 import { MenuProvider } from "@/context/Menu";
 import { MessagesProvider } from "@/context/Messages";
 import { useNoHoverOnMobile } from "@/utils/useNoHoverOnMobile";
+import { usePathname } from "next/navigation";
 
 export default function ChatLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const pathname = usePathname();
 	useNoHoverOnMobile();
-
 	return (
 		<div className="flex min-h-[100dvh]">
 			<MenuProvider>
@@ -28,7 +29,7 @@ export default function ChatLayout({
 							<ChatUserHeader />
 							{children}
 							<div className="border-t md:hidden" />
-							<ChatInput />
+							<ChatInput disabled={pathname === "/chat"} />
 							<ChatVersion />
 						</ChatContainer>
 					</div>

@@ -8,6 +8,15 @@ const nextConfig = {
 			},
 		];
 	},
+	async redirects() {
+		return [
+			{
+				source: "/chat",
+				destination: "/chat/1",
+				permanent: true,
+			},
+		];
+	},
 };
 
 export default nextConfig;
