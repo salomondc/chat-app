@@ -16,7 +16,7 @@ export const ChatUserHeader = () => {
 					<Icons.Maximize className="max-md:hidden" />
 					<Icons.Menu className="md:hidden" />
 				</IconButton>
-				<span className="text-xl font-semibold mx-auto leading-none max-md:text-base text-center">
+				<span className="text-xl font-semibold mx-auto leading-none max-md:text-base text-center px-4">
 					Welcome back, John Doe
 				</span>
 				<FloatingLogoutMenu />

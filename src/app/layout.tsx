@@ -30,7 +30,7 @@ export default function RootLayout({
 				href="./favicon.ico"
 				type="image/x-icon"
 			/>
-			<body className={`antialiased font-urbanist`}>
+			<body>
 				<ReactQueryProvider>{children}</ReactQueryProvider>
 			</body>
 		</html>

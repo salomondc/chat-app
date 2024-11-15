@@ -64,18 +64,6 @@ export const ChatResponse: React.FC<Props> = ({ text, time, pending }) => {
 					<IconButton aria-label="speech">
 						<Icons.Volume />
 					</IconButton>
-					<IconButton aria-label="refresh">
-						<Icons.Refresh />
-					</IconButton>
-					<IconButton aria-label="like">
-						<Icons.Like />
-					</IconButton>
-					<IconButton aria-label="dislike">
-						<Icons.Dislike />
-					</IconButton>
-					<span className="mx-3 text-primary-100 hover:underline cursor-pointer active:opacity-50 select-none text-sm">
-						See translation
-					</span>
 					<div className="ml-auto text-sm text-dark-secondary">{time}</div>
 				</div>
 			</div>

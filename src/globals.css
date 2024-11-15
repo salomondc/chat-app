@@ -33,10 +33,12 @@ fieldset[class$="MuiOutlinedInput-notchedOutline"] {
 	@apply bg-primary-100/20;
 }
 
+* {
+	@apply min-w-0;
+}
+
 body {
-	color: var(--foreground);
-	background: var(--background);
-	font-family: Arial, Helvetica, sans-serif;
+	@apply font-urbanist text-foreground bg-background antialiased;
 }
 
 @layer utilities {

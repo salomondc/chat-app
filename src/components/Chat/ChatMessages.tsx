@@ -18,7 +18,7 @@ export const ChatMessages: React.FC<{ slug: string }> = ({ slug }) => {
 		<div
 			id="chat-container"
 			className="flex flex-col gap-2 p-5 w-full flex-grow overflow-auto">
-			{chatData[Number(slug) as keyof typeof chatData].messages.map(
+			{chatData[Number(slug) as keyof typeof chatData]?.messages.map(
 				(message) => {
 					switch (message.author) {
 						case "user":
