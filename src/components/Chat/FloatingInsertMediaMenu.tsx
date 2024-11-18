@@ -1,14 +1,19 @@
 "use client";
 import { Button, IconButton, Popover } from "@mui/material";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Icons } from "..";
 
 interface Props {
 	disabled?: boolean;
+	handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const FloatingInsertMediaMenu: React.FC<Props> = ({ disabled }) => {
+export const FloatingInsertMediaMenu: React.FC<Props> = ({
+	disabled,
+	handleFileChange,
+}) => {
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+	const uploadPictureRef = useRef<HTMLInputElement>(null);
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -25,13 +30,22 @@ export const FloatingInsertMediaMenu: React.FC<Props> = ({ disabled }) => {
 
 	return (
 		<>
+			<input
+				multiple
+				id="upload-picture"
+				accept="image/png, image/jpeg"
+				ref={uploadPictureRef}
+				type="file"
+				onChange={handleFileChange}
+				className="invisible absolute"
+			/>
 			<IconButton
 				size="small"
 				aria-describedby={id}
 				disabled={disabled}
 				aria-label="insert attachment"
 				edge="start"
-				className={`px-2 max-md:px-4 mx-0.5 ${open ? "bg-black/5" : ""}`}
+				className={`p-2 max-md:p-4 mx-0.5 ${open ? "bg-black/5" : ""}`}
 				onClick={handleClick}>
 				<Icons.Paperclip />
 			</IconButton>
@@ -56,10 +70,18 @@ export const FloatingInsertMediaMenu: React.FC<Props> = ({ disabled }) => {
 					},
 				}}>
 				<div>
-					<Button className="min-w-64 flex justify-start px-3 py-2 text-foreground hover:bg-light-gray normal-case font-urbanist text-base font-normal gap-2">
+					<Button
+						onClick={() => {
+							uploadPictureRef.current?.click();
+							setTimeout(() => {
+								setAnchorEl(null);
+							}, 300);
+						}}
+						className="min-w-64 flex justify-start px-3 py-2 text-foreground hover:bg-light-gray normal-case font-urbanist text-base font-normal gap-2">
 						<Icons.Camera />
 						Photo
 					</Button>
+
 					<div className="border-t" />
 					<Button className="min-w-64 flex justify-start px-3 py-2 text-foreground hover:bg-light-gray normal-case font-urbanist text-base font-normal gap-2">
 						<Icons.Microphone />

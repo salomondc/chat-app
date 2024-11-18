@@ -17,12 +17,13 @@ export const ChatMessages: React.FC = () => {
 			id="chat-container"
 			className="flex flex-col gap-2 p-5 w-full flex-grow overflow-auto">
 			{messages.map((message, i) => {
-				if (message.user_message) {
+				if (message.user_message || message.pictures) {
 					return (
 						<ChatQuestion
 							pending={!message.agent_status}
 							key={message.user_message + i.toString()}
-							text={message.user_message}
+							text={message.user_message || ""}
+							images={message.pictures || []}
 							time="0:00"
 						/>
 					);

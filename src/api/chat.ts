@@ -8,11 +8,16 @@ export const getLatestMessage = async () => {
 	return response.data;
 };
 
-export const sendMessage = async (message: string) => {
+interface sendMessageData {
+	pictures: string[];
+	message: string;
+}
+
+export const sendMessage = async (data: sendMessageData) => {
 	const response = await api.post<Message>("/agents_test/run", {
 		agent_mode: "user_message",
-		pictures: "[]",
-		message,
+		pictures: data.pictures,
+		message: data.message,
 	});
 	return response.data;
 };

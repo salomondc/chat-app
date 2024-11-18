@@ -5,6 +5,7 @@ export interface Message {
 	agent_status?: string;
 	user_message?: string;
 	agent_message?: string;
+	pictures?: string[];
 }
 
 interface MessagesContextType {
