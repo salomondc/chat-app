@@ -49,8 +49,7 @@ export const ChatResponse: React.FC<Props> = ({ text, time, pending }) => {
 			<div className="flex flex-col mr-auto gap-1 max-w-4xl">
 				{pending ? (
 					<div className="border px-3 py-2 rounded-xl">
-						{" "}
-						<Icons.Loading />{" "}
+						<Icons.Loading />
 					</div>
 				) : (
 					<div className="border px-3 py-2 rounded-xl max-w-[calc(100dvw-30rem)] max-md:max-w-[calc(100dvw-85px)] prose">

@@ -1,7 +1,5 @@
-"use client";
-
-import { ChatPlaceholder } from "@/components";
+import { ChatMessages } from "@/components";
 
 export default function Chat() {
-	return <ChatPlaceholder />;
+	return <ChatMessages />;
 }

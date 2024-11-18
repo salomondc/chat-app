@@ -2,9 +2,6 @@ import axios from "axios";
 
 export const api = axios.create({
 	baseURL: "/api",
-	headers: {
-		Cookie: "PHPSESSID=b346f9a62e30f138bb2c3b48ee63ca2c",
-	},
 });
 
 export const queryOptions = {

@@ -6,6 +6,7 @@ export default async function SavedChat({
 	params: Promise<{ slug: string }>;
 }) {
 	const slug = (await params).slug;
+	console.log(slug);
 
-	return <ChatMessages slug={slug} />;
+	return <ChatMessages />;
 }
