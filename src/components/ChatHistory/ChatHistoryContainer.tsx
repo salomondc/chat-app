@@ -2,18 +2,21 @@
 import { Icons } from "@/components";
 import { useMenu } from "@/context/Menu";
 import { Button, IconButton } from "@mui/material";
-import Image from "next/image";
 import { ChatHistory } from "./ChatHistory";
 import { UserPlan } from "./UserPlan";
 import { MenuOptions } from "./MenuOptions";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useMobileCheck } from "@/utils/useMobileCheck";
 import { useNoHoverOnMobile } from "@/utils/useNoHoverOnMobile";
+import { useContent } from "@/context/Content";
+import { ChatScenarios } from "./ChatScenarios";
 
-export const ChatHistoryContainer: React.FC<{ slug?: string }> = ({ slug }) => {
+export const ChatHistoryContainer = () => {
+	const { content } = useContent();
 	const { isOpen, setIsOpen } = useMenu();
 	const { isMobile } = useMobileCheck();
 	const router = useRouter();
+	const slug = useParams().slug as string;
 	useNoHoverOnMobile();
 
 	const waitForAnimationOnMobile = (url: string) => {
@@ -41,13 +44,14 @@ export const ChatHistoryContainer: React.FC<{ slug?: string }> = ({ slug }) => {
 					className="z-50 absolute top-4 right-5 md:hidden">
 					<Icons.Close className="text-dark w-6 h-6" />
 				</IconButton>
-				<Image
-					src={"/logo.png"}
-					height={27}
-					width={122}
-					alt="logo"
-					className="mx-auto max-md:ml-0 max-md:w-[110px]"
-				/>
+				<div className="flex mx-auto gap-2 items-center">
+					<img
+						src={content.logo_url}
+						alt="logo"
+						className="size-12 -my-4"
+					/>
+					<span className="text-lg font-bold">{content.logo_name}</span>
+				</div>
 				<Button
 					onClick={() => waitForAnimationOnMobile("/chat")}
 					aria-label="new chat"
@@ -65,11 +69,10 @@ export const ChatHistoryContainer: React.FC<{ slug?: string }> = ({ slug }) => {
 						<Icons.Settings />
 					</IconButton>
 				</div>
-				<div className="flex items-center">
-					<span className="text-lg font-medium">Recent</span>
-					<Icons.ArrorRight className="ml-auto" />
+				<div className="flex-grow flex flex-col gap-5 overflow-auto">
+					<ChatScenarios slug={slug} />
+					<ChatHistory slug={slug} />
 				</div>
-				<ChatHistory slug={slug} />
 				<MenuOptions />
 				<UserPlan />
 			</div>

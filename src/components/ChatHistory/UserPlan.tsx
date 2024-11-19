@@ -1,26 +1,26 @@
 "use client";
+import { useContent } from "@/context/Content";
 import { Button } from "@mui/material";
-import Image from "next/image";
 
 export const UserPlan = () => {
+	const { content } = useContent();
 	return (
 		<div className="rounded-xl border-tertiary/20 border p-2 pl-4 flex gap-3 items-center bg-white">
-			<Image
-				src={"/ocean-protocol.png"}
-				width={24}
-				height={24}
+			<img
+				src={content.logo_url}
 				alt="symbol-logo"
+				className="size-6 scale-150"
 			/>
 			<div className="flex flex-col">
-				<span className="font-semibold">Basic Plan</span>
+				<span className="font-semibold">{content.plan}</span>
 				<span className="text-xs text-dark-secondary -mt-1">
-					20/20 left credit
+					{content.credits}
 				</span>
 			</div>
 			<Button
 				aria-label="upgrade"
 				className="text-white normal-case font-urbanist bg-tertiary ml-auto">
-				Upgrade
+				{content.upgrade_btn}
 			</Button>
 		</div>
 	);
