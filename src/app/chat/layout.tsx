@@ -1,12 +1,4 @@
 "use client";
-
-import {
-	ChatContainer,
-	ChatHistoryContainer,
-	ChatInput,
-	ChatUserHeader,
-	ChatVersion,
-} from "@/components";
 import { ContentProvider } from "@/context/Content";
 import { MenuProvider } from "@/context/Menu";
 import { MessagesProvider } from "@/context/Messages";
@@ -22,18 +14,7 @@ export default function ChatLayout({
 		<div className="flex min-h-[100dvh]">
 			<ContentProvider>
 				<MenuProvider>
-					<MessagesProvider>
-						<ChatHistoryContainer />
-						<div className="flex flex-grow">
-							<ChatContainer>
-								<ChatUserHeader />
-								{children}
-								<div className="border-t md:hidden" />
-								<ChatInput />
-								<ChatVersion />
-							</ChatContainer>
-						</div>
-					</MessagesProvider>
+					<MessagesProvider>{children}</MessagesProvider>
 				</MenuProvider>
 			</ContentProvider>
 		</div>

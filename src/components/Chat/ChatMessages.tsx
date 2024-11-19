@@ -38,12 +38,13 @@ export const ChatMessages: React.FC = () => {
 						/>
 					);
 				}
-				if (message.agent_message) {
+				if (message.agent_message?.message) {
 					return (
 						<ChatResponse
 							pending={!message.agent_status}
 							key={message.agent_message + i.toString()}
-							text={message.agent_message}
+							text={message.agent_message.message}
+							options={message.agent_message.options}
 							time="0:00"
 						/>
 					);

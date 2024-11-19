@@ -1,10 +1,11 @@
 "use client";
+import { AgentMessage } from "@/api/chat";
 import { createContext, useContext, useState } from "react";
 
-export interface Message {
+interface Message {
 	agent_status?: string;
 	user_message?: string;
-	agent_message?: string;
+	agent_message?: AgentMessage;
 	pictures?: string[];
 }
 

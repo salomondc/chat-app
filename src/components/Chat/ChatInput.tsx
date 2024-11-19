@@ -3,8 +3,7 @@ import { IconButton } from "@mui/material";
 import { FloatingInsertMediaMenu, Icons } from "..";
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useMessages } from "@/context/Messages";
-import { sendMessage } from "@/api/chat";
-import { useMutation } from "@tanstack/react-query";
+import { useSendMessage } from "@/utils/useSendMessage";
 
 interface Props {
 	disabled?: boolean;
@@ -12,25 +11,10 @@ interface Props {
 
 export const ChatInput: React.FC<Props> = ({ disabled }) => {
 	const [value, setValue] = useState("");
-	const { messages, setMessages } = useMessages();
+	const { messages } = useMessages();
 	const [files, setFiles] = useState<File[]>([]);
 	const [previewImages, setPreviewImages] = useState<string[]>([]);
-	const mutateSendMessage = useMutation({
-		mutationFn: sendMessage,
-		onSuccess: (data) => {
-			setMessages((prev) => {
-				const newArr = [...prev];
-				const last = newArr.length - 1;
-				newArr[last].agent_status = data.agent_status;
-				return [
-					...newArr,
-					{
-						agent_message: ".",
-					},
-				];
-			});
-		},
-	});
+	const { send } = useSendMessage();
 
 	const isLoading =
 		messages[messages.length - 1] &&
@@ -39,21 +23,10 @@ export const ChatInput: React.FC<Props> = ({ disabled }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = () => {
-		if (!value && !previewImages.length) return;
+		send(value, previewImages);
 		setValue("");
 		setPreviewImages([]);
 		inputRef.current?.blur();
-		setMessages((prev) => [
-			...prev,
-			{
-				user_message: value,
-				pictures: previewImages,
-			},
-		]);
-		mutateSendMessage.mutate({
-			message: value,
-			pictures: previewImages,
-		});
 	};
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
