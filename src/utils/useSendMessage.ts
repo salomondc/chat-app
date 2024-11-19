@@ -34,7 +34,7 @@ export const useSendMessage = () => {
 			},
 		]);
 		mutate({
-			message: text,
+			message: text || "Describe the image or images I sent.",
 			pictures: images,
 		});
 	};
