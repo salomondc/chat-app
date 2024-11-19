@@ -82,7 +82,7 @@ export const ChatResponse: React.FC<Props> = ({
 													handleOptionSelect(option.option_agent_task);
 												}}
 												className="bg-white hover:bg-light-gray text-foreground normal-case font-urbanist text-base font-semibold flex justify-start rounded-b-xl rounded-t-none px-4 py-2 shadow-none gap-3">
-												<Icons.ChatBubbles className="shrink-0 text-gray-500" />
+												<Icons.ViewFinder className="shrink-0 text-gray-500" />
 												<span className="text-left">
 													{option.option_button_text}
 												</span>
