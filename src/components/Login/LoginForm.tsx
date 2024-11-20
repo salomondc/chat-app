@@ -1,49 +1,33 @@
 "use client";
-import { FormHelperText, IconButton, InputAdornment } from "@mui/material";
+import { IconButton, InputAdornment } from "@mui/material";
 import { useState } from "react";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { Button, Icons, TextField } from "..";
 import { focusInputOnEmpty } from "@/utils/focusInputIfEmpty";
 import { useRouter } from "next/navigation";
-import HCaptcha from "@hcaptcha/react-hcaptcha";
-import Link from "next/link";
 
 export const LoginForm = () => {
 	const [hidePassword, setHidePassword] = useState(true);
 	const router = useRouter();
 
 	const validationSchema = yup.object({
-		user: yup.string().required("Phone or email is required"),
+		user: yup.string().required("Username is required"),
 		password: yup.string().required("Password is required"),
-		captcha: yup.string().required("Captcha is required"),
 	});
 
-	const handleVerify = (token: string) => {
-		// Token should be also sent to the server to validate
-		setFieldValue("captcha", token);
-	};
-
-	const {
-		values,
-		handleChange,
-		handleBlur,
-		touched,
-		errors,
-		handleSubmit,
-		setFieldValue,
-	} = useFormik({
-		initialValues: {
-			user: "",
-			password: "",
-			captcha: "",
-		},
-		validationSchema: validationSchema,
-		onSubmit: () => {
-			// console.log(values)
-			router.push("/chat");
-		},
-	});
+	const { values, handleChange, handleBlur, touched, errors, handleSubmit } =
+		useFormik({
+			initialValues: {
+				user: "",
+				password: "",
+			},
+			validationSchema: validationSchema,
+			onSubmit: () => {
+				// console.log(values)
+				router.push("/chat");
+			},
+		});
 
 	return (
 		<form
@@ -60,7 +44,7 @@ export const LoginForm = () => {
 				onBlur={handleBlur}
 				error={touched.user && Boolean(errors.user)}
 				helpertext={(touched.user && errors.user) || ""}
-				label="Phone number or email"
+				label="Username"
 			/>
 			<div className="flex flex-col">
 				<TextField
@@ -83,9 +67,6 @@ export const LoginForm = () => {
 						</InputAdornment>
 					}
 				/>
-				<span className="ml-auto text-primary-100 hover:underline cursor-pointer active:opacity-50 select-none">
-					Forgot password?
-				</span>
 			</div>
 
 			<Button
@@ -93,41 +74,6 @@ export const LoginForm = () => {
 				type="submit">
 				Sign in
 			</Button>
-			<div className="mx-auto">
-				<HCaptcha
-					sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_KEY!}
-					onVerify={handleVerify}
-				/>
-
-				<FormHelperText error={touched.captcha && Boolean(errors.captcha)}>
-					{touched.captcha && errors.captcha}
-				</FormHelperText>
-			</div>
-			<div className="flex items-center my-2">
-				<div className="flex-grow border-t" />
-				<span className="text-dark-secondary mx-4">Or</span>
-				<div className="flex-grow border-t" />
-			</div>
-			<Button muted>
-				<Icons.Apple className="ml-2 mr-4" />
-				Sign in with Apple ID
-			</Button>
-			<Button muted>
-				<Icons.Google className="mr-4" />
-				Sign in with Google
-			</Button>
-			<Button muted>
-				<Icons.Facebook className="ml-4 mr-4" />
-				Sign in with Facebook
-			</Button>
-			<span className="text-lg font-medium mx-auto mt-2">
-				Don’t have an account?{" "}
-				<Link
-					href={"#"}
-					className="ml-auto text-primary-100 hover:underline cursor-pointer active:opacity-50 select-none">
-					Sign up
-				</Link>
-			</span>
 		</form>
 	);
 };

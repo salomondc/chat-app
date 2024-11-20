@@ -19,9 +19,7 @@ export const TextField = (props: OutlinedInputProps & TextFieldProps) => {
 				{props.label}
 			</InputLabel>
 			<OutlinedInput
-				className={`rounded-xl pr-6 font-urbanist bg-white ${
-					props.type == "password" ? "h-[54px]" : ""
-				}`}
+				className={`rounded-xl pr-6 font-urbanist bg-white`}
 				slotProps={{
 					input: {
 						className: props.type == "password" ? "font-sans" : "",
