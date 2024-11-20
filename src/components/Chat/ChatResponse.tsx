@@ -28,7 +28,7 @@ export const ChatResponse: React.FC<Props> = ({
 		queryFn: getLatestMessage,
 		enabled: Boolean(pending),
 		refetchInterval: (query) => {
-			return query.state.data?.agent_message ? false : 3000;
+			return query.state.data?.agent_message ? false : 1000;
 		},
 		refetchOnWindowFocus: false,
 	});
@@ -72,17 +72,15 @@ export const ChatResponse: React.FC<Props> = ({
 									return (
 										<div
 											key={option.option_title + i}
-											className="border rounded-xl flex flex-col">
-											<span className="px-4 py-2 italic">
+											className="flex flex-col">
+											<span className="px-4 py-2 italic border rounded-xl">
 												{option.option_title}
 											</span>
-											<div className="border-t" />
 											<Button
 												onClick={() => {
 													handleOptionSelect(option.option_agent_task);
 												}}
-												className="bg-white hover:bg-light-gray text-foreground normal-case font-urbanist text-base font-semibold flex justify-start rounded-b-xl rounded-t-none px-4 py-2 shadow-none gap-3">
-												<Icons.ViewFinder className="shrink-0 text-gray-500" />
+												className="bg-tertiary hover:opacity-90 text-white normal-case font-urbanist text-base font-semibold flex  px-4 py-2 shadow-none gap-1 ml-auto mt-2">
 												<span className="text-left">
 													{option.option_button_text}
 												</span>

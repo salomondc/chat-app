@@ -4,7 +4,7 @@ const nextConfig = {
 		return [
 			{
 				source: "/api/:path*",
-				destination: "https://make.lumnar.tech/:path*", // Proxy to Backend
+				destination: "https://make.lumnar.tech/:path*",
 			},
 		];
 	},
