@@ -73,10 +73,8 @@ export const ChatResponse: React.FC<Props> = ({
 									return (
 										<div
 											key={option.option_title + i}
-											className="flex flex-col">
-											<span className="px-4 py-2 italic border rounded-xl">
-												{option.option_title}
-											</span>
+											className="flex flex-wrap border rounded-xl px-4 py-2 items-center">
+											<span className="italic mr-3">{option.option_title}</span>
 											<Button
 												onClick={() => {
 													handleOptionSelect(
@@ -84,7 +82,7 @@ export const ChatResponse: React.FC<Props> = ({
 														option.option_agent
 													);
 												}}
-												className="bg-tertiary hover:opacity-90 text-white normal-case font-urbanist text-base font-semibold flex  px-4 py-2 shadow-none gap-1 ml-auto mt-2">
+												className="bg-tertiary hover:opacity-90 text-white normal-case font-urbanist text-base font-semibold flex  px-4 py-2 shadow-none gap-1 ml-auto my-2">
 												<span className="text-left">
 													{option.option_button_text}
 												</span>
