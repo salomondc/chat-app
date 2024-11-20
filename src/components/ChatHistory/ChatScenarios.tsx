@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useContent } from "@/context/Content";
 import { Icons } from "..";
+import { Button } from "@mui/material";
 
 export const ChatScenarios: React.FC<{ slug?: string }> = ({ slug }) => {
 	const { content } = useContent();
@@ -41,19 +42,40 @@ export const ChatScenarios: React.FC<{ slug?: string }> = ({ slug }) => {
 		<>
 			<div className="flex items-center">
 				<span className="text-lg font-medium">Scenarios</span>
-				<Icons.ArrorRight className="ml-auto" />
 			</div>
-			<div className="flex flex-col gap-4">
+			<div>
 				{content.tool_buttons.map((item, i) => {
 					return (
-						<Link
-							href={item.link}
-							id={`scnr-${item.link}-${i}`}
+						<div
 							key={`scnr-${item.link}-${i}`}
-							onClick={(e) => waitForAnimationOnMobile(e, item.link)}
-							className={`text-dark-secondary cursor-pointer hover:text-foreground mr-auto`}>
-							{item.name}
-						</Link>
+							className="group">
+							<Link
+								id={`scnr-${item.link}-${i}`}
+								href={item.link}
+								onClick={(e) => waitForAnimationOnMobile(e, item.link)}>
+								<Button
+									fullWidth
+									aria-label="preferences"
+									className="bg-white hover:bg-light-gray text-foreground normal-case font-urbanist text-base flex justify-start gap-2 group-first:rounded-t-xl rounded-t-none rounded-b-none group-last:rounded-b-xl p-3 ">
+									<img
+										src={item.icon || ""}
+										alt="btn1-icon"
+										className="size-6"
+									/>
+									{item.name}
+									<Icons.ArrorRight className="ml-auto" />
+								</Button>
+							</Link>
+							<div className="border-t mx-3 group-last:hidden" />
+						</div>
+						// <Link
+						// 	href={item.link}
+						// 	id={`scnr-${item.link}-${i}`}
+						// 	key={`scnr-${item.link}-${i}`}
+						// 	onClick={(e) => waitForAnimationOnMobile(e, item.link)}
+						// 	className={`text-dark-secondary cursor-pointer hover:text-foreground mr-auto`}>
+						// 	{item.name}
+						// </Link>
 					);
 				})}
 			</div>

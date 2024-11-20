@@ -13,7 +13,7 @@ export const MenuOptions = () => {
 	const router = useRouter();
 
 	return (
-		<div className="bg-white rounded-xl">
+		<div>
 			<Button
 				onClick={() => {
 					router.push(btn1.link);

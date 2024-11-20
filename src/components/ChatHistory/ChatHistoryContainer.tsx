@@ -1,12 +1,10 @@
 "use client";
 import { Icons } from "@/components";
 import { useMenu } from "@/context/Menu";
-import { Button, IconButton } from "@mui/material";
-import { ChatHistory } from "./ChatHistory";
+import { IconButton } from "@mui/material";
 import { UserPlan } from "./UserPlan";
 import { MenuOptions } from "./MenuOptions";
-import { useParams, useRouter } from "next/navigation";
-import { useMobileCheck } from "@/utils/useMobileCheck";
+import { useParams } from "next/navigation";
 import { useNoHoverOnMobile } from "@/utils/useNoHoverOnMobile";
 import { useContent } from "@/context/Content";
 import { ChatScenarios } from "./ChatScenarios";
@@ -14,21 +12,8 @@ import { ChatScenarios } from "./ChatScenarios";
 export const ChatHistoryContainer = () => {
 	const { content } = useContent();
 	const { isOpen, setIsOpen } = useMenu();
-	const { isMobile } = useMobileCheck();
-	const router = useRouter();
 	const slug = useParams().slug as string;
 	useNoHoverOnMobile();
-
-	const waitForAnimationOnMobile = (url: string) => {
-		if (isMobile) {
-			setIsOpen(false);
-			setTimeout(() => {
-				router.push(url);
-			}, 500);
-		} else {
-			router.push(url);
-		}
-	};
 
 	return (
 		<div
@@ -52,28 +37,10 @@ export const ChatHistoryContainer = () => {
 					/>
 					<span className="text-lg font-bold">{content.logo_name}</span>
 				</div>
-				<Button
-					onClick={() => waitForAnimationOnMobile("/chat")}
-					aria-label="new chat"
-					variant="outlined"
-					className="flex gap-2 text-lg font-semibold normal-case font-urbanist text-primary-100 border-primary-100 bg-primary-100/10 rounded-xl">
-					New Chat <Icons.Add />
-				</Button>
-				<div className="flex">
-					<IconButton aria-label="search">
-						<Icons.Search />
-					</IconButton>
-					<IconButton
-						aria-label="settings"
-						className="ml-auto">
-						<Icons.Settings />
-					</IconButton>
-				</div>
+				<MenuOptions />
 				<div className="flex-grow flex flex-col gap-5 overflow-auto">
 					<ChatScenarios slug={slug} />
-					<ChatHistory slug={slug} />
 				</div>
-				<MenuOptions />
 				<UserPlan />
 			</div>
 		</div>

@@ -46,6 +46,7 @@ export interface ContentContextType {
 	tool_buttons: Array<{
 		name: string;
 		link: string;
+		icon: string;
 	}>;
 	main_buttons: {
 		btn1: {
