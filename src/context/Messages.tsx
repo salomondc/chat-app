@@ -7,6 +7,7 @@ interface Message {
 	user_message?: string;
 	agent_message?: AgentMessage;
 	pictures?: string[];
+	agent?: string;
 }
 
 interface MessagesContextType {

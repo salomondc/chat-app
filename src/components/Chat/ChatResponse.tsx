@@ -1,5 +1,5 @@
 "use client";
-import { AgentMessage, getLatestMessage } from "@/api/chat";
+import { AgentMessage, getLatestResponse } from "@/api/chat";
 import { Button, Icons } from "@/components";
 import { useMessages } from "@/context/Messages";
 import { IconButton } from "@mui/material";
@@ -21,11 +21,12 @@ export const ChatResponse: React.FC<Props> = ({
 	pending,
 	options,
 }) => {
-	const { setMessages } = useMessages();
+	const { messages, setMessages } = useMessages();
 	const queryClient = useQueryClient();
+	const lastUserMsg = messages.filter((msg) => msg.user_message).slice(-1)[0];
 	const { data, isFetching } = useQuery({
 		queryKey: ["agent_message"],
-		queryFn: getLatestMessage,
+		queryFn: () => getLatestResponse(lastUserMsg.agent),
 		enabled: Boolean(pending),
 		refetchInterval: (query) => {
 			return query.state.data?.agent_message ? false : 1000;
@@ -34,8 +35,8 @@ export const ChatResponse: React.FC<Props> = ({
 	});
 	const { send } = useSendMessage();
 
-	const handleOptionSelect = (task: string) => {
-		send(task);
+	const handleOptionSelect = (task: string, agent: string) => {
+		send(task, [], agent);
 	};
 
 	useEffect(() => {
@@ -78,7 +79,10 @@ export const ChatResponse: React.FC<Props> = ({
 											</span>
 											<Button
 												onClick={() => {
-													handleOptionSelect(option.option_agent_task);
+													handleOptionSelect(
+														option.option_agent_task,
+														option.option_agent
+													);
 												}}
 												className="bg-tertiary hover:opacity-90 text-white normal-case font-urbanist text-base font-semibold flex  px-4 py-2 shadow-none gap-1 ml-auto mt-2">
 												<span className="text-left">

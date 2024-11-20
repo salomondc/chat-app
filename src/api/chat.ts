@@ -1,9 +1,9 @@
 import { api } from ".";
 
-export const getLatestMessage = async () => {
+export const getLatestResponse = async (agent?: string) => {
 	const response = await api.post<MessageData>("/agents_test/run", {
 		agent_mode: "check_for_response",
-		agent: "task_dispatcher",
+		agent: agent || "task_dispatcher",
 	});
 
 	const agent_message = response.data.agent_message;
@@ -15,11 +15,6 @@ export const getLatestMessage = async () => {
 			: undefined,
 	};
 };
-
-interface sendMessageData {
-	pictures: string[];
-	message: string;
-}
 
 export interface AgentMessage {
 	message: string;
@@ -38,10 +33,16 @@ interface MessageData {
 	pictures?: string[];
 }
 
+interface sendMessageData {
+	pictures: string[];
+	message: string;
+	agent?: string;
+}
+
 export const sendMessage = async (data: sendMessageData) => {
 	const response = await api.post<MessageData>("/agents_test/run", {
 		agent_mode: "user_message",
-		agent: "task_dispatcher",
+		agent: data.agent || "task_dispatcher",
 		hidden: false,
 		pictures: JSON.stringify(data.pictures),
 		message: data.message,

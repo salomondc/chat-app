@@ -24,18 +24,20 @@ export const useSendMessage = () => {
 		},
 	});
 
-	const send = (text: string, images: string[] = []) => {
+	const send = (text: string, images: string[] = [], agent?: string) => {
 		if (!text && !images.length) return;
 		setMessages((prev) => [
 			...prev,
 			{
 				user_message: text,
 				pictures: images,
+				agent: agent || "task_dispatcher",
 			},
 		]);
 		mutate({
 			message: text || "Describe the image or images I sent.",
 			pictures: images,
+			agent,
 		});
 	};
 
