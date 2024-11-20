@@ -68,14 +68,6 @@ export const ChatScenarios: React.FC<{ slug?: string }> = ({ slug }) => {
 							</Link>
 							<div className="border-t mx-3 group-last:hidden" />
 						</div>
-						// <Link
-						// 	href={item.link}
-						// 	id={`scnr-${item.link}-${i}`}
-						// 	key={`scnr-${item.link}-${i}`}
-						// 	onClick={(e) => waitForAnimationOnMobile(e, item.link)}
-						// 	className={`text-dark-secondary cursor-pointer hover:text-foreground mr-auto`}>
-						// 	{item.name}
-						// </Link>
 					);
 				})}
 			</div>
