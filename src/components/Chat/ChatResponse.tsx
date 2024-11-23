@@ -7,6 +7,7 @@ import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { MarkdownRenderer } from "./MarkdownRenderer";
 import { useSendMessage } from "@/utils/useSendMessage";
+import { useAuth } from "@/context/Auth";
 
 interface Props {
 	text: string;
@@ -24,10 +25,16 @@ export const ChatResponse: React.FC<Props> = ({
 	const { messages, setMessages } = useMessages();
 	const queryClient = useQueryClient();
 	const lastUserMsg = messages.filter((msg) => msg.user_message).slice(-1)[0];
+	const { authData, isAuth } = useAuth();
 	const { data, isFetching } = useQuery({
 		queryKey: ["agent_message"],
-		queryFn: () => getLatestResponse(lastUserMsg.agent),
-		enabled: Boolean(pending),
+		queryFn: () =>
+			getLatestResponse({
+				agent: lastUserMsg.agent,
+				csrfToken: authData.csrf_token!,
+				sessionId: authData.session_id!,
+			}),
+		enabled: Boolean(pending) && isAuth,
 		refetchInterval: (query) => {
 			return query.state.data?.agent_message ? false : 1000;
 		},

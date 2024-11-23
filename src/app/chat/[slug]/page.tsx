@@ -12,6 +12,7 @@ import { useContent } from "@/context/Content";
 
 export default function SavedChat() {
 	const { isLoading } = useContent();
+
 	return (
 		<>
 			{isLoading ? (

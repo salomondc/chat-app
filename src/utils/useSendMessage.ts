@@ -1,9 +1,12 @@
 import { sendMessage } from "@/api/chat";
+import { useAuth } from "@/context/Auth";
 import { useMessages } from "@/context/Messages";
 import { useMutation } from "@tanstack/react-query";
 
 export const useSendMessage = () => {
 	const { setMessages } = useMessages();
+	const { authData, isAuth } = useAuth();
+
 	const { mutate, isPending, isSuccess, data } = useMutation({
 		mutationFn: sendMessage,
 		onSuccess: (data) => {
@@ -25,7 +28,7 @@ export const useSendMessage = () => {
 	});
 
 	const send = (text: string, images: string[] = [], agent?: string) => {
-		if (!text && !images.length) return;
+		if ((!text && !images.length) || !isAuth) return;
 		setMessages((prev) => [
 			...prev,
 			{
@@ -38,6 +41,8 @@ export const useSendMessage = () => {
 			message: text || "Describe the image or images I sent.",
 			pictures: images,
 			agent,
+			csrfToken: authData.csrf_token!,
+			sessionId: authData.session_id!,
 		});
 	};
 

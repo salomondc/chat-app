@@ -6,18 +6,17 @@ import {
 	ChatMessages,
 	ChatUserHeader,
 	ChatVersion,
-	Icons,
+	FullScreenLoading,
 } from "@/components";
 import { useContent } from "@/context/Content";
 
 export default function Chat() {
 	const { isLoading } = useContent();
+
 	return (
 		<>
 			{isLoading ? (
-				<div className="h-screen w-screen flex items-center justify-center gap-2 flex-col">
-					<Icons.Loading />
-				</div>
+				<FullScreenLoading />
 			) : (
 				<>
 					<ChatHistoryContainer />

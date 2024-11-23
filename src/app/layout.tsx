@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "../globals.css";
 import { ReactQueryProvider } from "@/context/reactQueryProvider";
+import { AuthProvider } from "@/context/Auth";
 
 export const metadata: Metadata = {
 	title: "Lumnar Tech Advisor",
@@ -31,7 +32,9 @@ export default function RootLayout({
 				type="image/x-icon"
 			/>
 			<body>
-				<ReactQueryProvider>{children}</ReactQueryProvider>
+				<ReactQueryProvider>
+					<AuthProvider>{children}</AuthProvider>
+				</ReactQueryProvider>
 			</body>
 		</html>
 	);

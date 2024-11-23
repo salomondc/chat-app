@@ -1,10 +1,29 @@
 import { api } from ".";
 
-export const getLatestResponse = async (agent?: string) => {
-	const response = await api.post<MessageData>("/agents_test/run", {
-		agent_mode: "check_for_response",
-		agent: agent || "task_dispatcher",
-	});
+interface GetLatestResponseArgs {
+	agent?: string;
+	sessionId: string;
+	csrfToken: string;
+}
+
+export const getLatestResponse = async ({
+	agent,
+	csrfToken,
+	sessionId,
+}: GetLatestResponseArgs) => {
+	const response = await api.post<MessageData>(
+		"/agents_test/run",
+		{
+			agent_mode: "check_for_response",
+			agent: agent || "task_dispatcher",
+		},
+		{
+			headers: {
+				"Session-ID": sessionId,
+				"CSRF-Token": csrfToken,
+			},
+		}
+	);
 
 	const agent_message = response.data.agent_message;
 
@@ -37,16 +56,27 @@ interface sendMessageData {
 	pictures: string[];
 	message: string;
 	agent?: string;
+	sessionId: string;
+	csrfToken: string;
 }
 
 export const sendMessage = async (data: sendMessageData) => {
-	const response = await api.post<MessageData>("/agents_test/run", {
-		agent_mode: "user_message",
-		agent: data.agent || "task_dispatcher",
-		hidden: false,
-		pictures: JSON.stringify(data.pictures),
-		message: data.message,
-	});
+	const response = await api.post<MessageData>(
+		"/agents_test/run",
+		{
+			agent_mode: "user_message",
+			agent: data.agent || "task_dispatcher",
+			hidden: false,
+			pictures: JSON.stringify(data.pictures),
+			message: data.message,
+		},
+		{
+			headers: {
+				"Session-ID": data.sessionId,
+				"CSRF-Token": data.csrfToken,
+			},
+		}
+	);
 
 	return response.data;
 };
