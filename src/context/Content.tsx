@@ -6,6 +6,7 @@ const initialData = {
 	content: {
 		logo_name: "",
 		logo_url: "",
+		user_pic: "",
 		recent_chats: [],
 		plan: "",
 		credits: "",
@@ -35,6 +36,7 @@ const ContentContext = createContext<{
 export interface ContentContextType {
 	logo_name: string;
 	logo_url: string;
+	user_pic: string;
 	recent_chats: Array<{
 		title: string;
 		t: number;

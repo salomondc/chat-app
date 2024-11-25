@@ -7,6 +7,7 @@ interface AuthData {
 	user_id?: number;
 	session_id?: string;
 	csrf_token?: string;
+	user_name?: string;
 }
 
 interface AuthContextType {
@@ -42,6 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 				scenario_id: Cookies.get("scenario_id"),
 				session_id: sessionId,
 				user_id: Number(Cookies.get("user_id")),
+				user_name: Cookies.get("user_name"),
 			});
 		}
 		return !!sessionId;
@@ -52,6 +54,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 		Cookies.remove("session_id", { path: "" });
 		Cookies.remove("user_id", { path: "" });
 		Cookies.remove("scenario_id", { path: "" });
+		Cookies.remove("user_name", { path: "" });
 	};
 
 	const setCookies = (data: AuthData) => {
@@ -59,8 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 		document.cookie = `session_id=${data.session_id}; path=/; secure; samesite=strict; max-age=3600`;
 		document.cookie = `user_id=${data.user_id}; path=/; secure; samesite=strict; max-age=3600`;
 		document.cookie = `scenario_id=${data.scenario_id}; path=/; secure; samesite=strict; max-age=3600`;
-		document.cookie = `expiration_time=3600; path=/; secure; samesite=strict; max-age=3600`;
-		document.cookie = `expiration_reference=${new Date().getTime()}; path=/; secure; samesite=strict; max-age=3600`;
+		document.cookie = `user_name=${data.user_name}; path=/; secure; samesite=strict; max-age=3600`;
 	};
 
 	return (

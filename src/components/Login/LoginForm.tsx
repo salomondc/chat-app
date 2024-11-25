@@ -50,6 +50,7 @@ export const LoginForm = () => {
 					scenario_id: data.scenario_id!,
 					session_id: data.session_id!,
 					user_id: data.user!.id,
+					user_name: data.user!.name,
 				});
 				validate();
 				router.push("/chat");
