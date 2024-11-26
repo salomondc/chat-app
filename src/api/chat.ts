@@ -4,15 +4,17 @@ interface GetLatestResponseArgs {
 	agent?: string;
 	sessionId: string;
 	csrfToken: string;
+	scenario?: string;
 }
 
 export const getLatestResponse = async ({
 	agent,
 	csrfToken,
 	sessionId,
+	scenario,
 }: GetLatestResponseArgs) => {
 	const response = await api.post<MessageData & UnauthorizedResponse>(
-		"/agents_test/run",
+		scenario || "/agents_test/run",
 		{
 			agent_mode: "check_for_response",
 			agent: agent || "task_dispatcher",
@@ -56,13 +58,14 @@ interface sendMessageData {
 	pictures: string[];
 	message: string;
 	agent?: string;
+	scenario?: string;
 	sessionId: string;
 	csrfToken: string;
 }
 
 export const sendMessage = async (data: sendMessageData) => {
 	const response = await api.post<MessageData & UnauthorizedResponse>(
-		"/agents_test/run",
+		data.scenario || "/agents_test/run",
 		{
 			agent_mode: "user_message",
 			agent: data.agent || "task_dispatcher",

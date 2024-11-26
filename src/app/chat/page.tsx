@@ -2,8 +2,7 @@
 import {
 	ChatContainer,
 	ChatHistoryContainer,
-	ChatInput,
-	ChatMessages,
+	ChatPlaceholder,
 	ChatUserHeader,
 	ChatVersion,
 	FullScreenLoading,
@@ -23,9 +22,7 @@ export default function Chat() {
 					<div className="flex flex-grow">
 						<ChatContainer>
 							<ChatUserHeader />
-							<ChatMessages />
-							<div className="border-t md:hidden" />
-							<ChatInput />
+							<ChatPlaceholder />
 							<ChatVersion />
 						</ChatContainer>
 					</div>

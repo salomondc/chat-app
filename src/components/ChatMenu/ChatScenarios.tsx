@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useContent } from "@/context/Content";
 import { Icons } from "..";
 import { Button } from "@mui/material";
+import { kebabCase } from "change-case";
 
 export const ChatScenarios: React.FC<{ slug?: string }> = ({ slug }) => {
 	const { content } = useContent();
@@ -51,8 +52,10 @@ export const ChatScenarios: React.FC<{ slug?: string }> = ({ slug }) => {
 							className="group">
 							<Link
 								id={`scnr-${item.link}-${i}`}
-								href={item.link}
-								onClick={(e) => waitForAnimationOnMobile(e, item.link)}>
+								href={`/chat/${kebabCase(item.name)}`}
+								onClick={(e) =>
+									waitForAnimationOnMobile(e, `/chat/${kebabCase(item.name)}`)
+								}>
 								<Button
 									fullWidth
 									aria-label="preferences"

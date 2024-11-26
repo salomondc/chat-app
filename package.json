@@ -19,6 +19,7 @@
     "@types/react-syntax-highlighter": "^15.5.13",
     "@wavesurfer/react": "^1.0.7",
     "axios": "^1.7.7",
+    "change-case": "^5.4.4",
     "formik": "^2.4.6",
     "js-cookie": "^3.0.5",
     "next": "14.2.16",

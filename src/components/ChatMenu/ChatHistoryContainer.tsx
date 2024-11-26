@@ -3,7 +3,7 @@ import { Icons } from "@/components";
 import { useMenu } from "@/context/Menu";
 import { IconButton } from "@mui/material";
 import { UserPlan } from "./UserPlan";
-import { MenuOptions } from "./MenuOptions";
+import { MenuOptions } from "./MainButtons";
 import { useParams } from "next/navigation";
 import { useNoHoverOnMobile } from "@/utils/useNoHoverOnMobile";
 import { useContent } from "@/context/Content";

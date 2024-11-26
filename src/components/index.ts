@@ -4,6 +4,6 @@ export * from "./TextField";
 export * from "./Chat/FloatingInsertMediaMenu";
 export * from "./Chat";
 export * from "./Login";
-export * from "./ChatHistory";
+export * from "./ChatMenu";
 export * from "./FullScreenLoading";
 export * from "./NotificationModal";

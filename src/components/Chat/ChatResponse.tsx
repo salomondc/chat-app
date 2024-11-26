@@ -10,6 +10,9 @@ import { useSendMessage } from "@/utils/useSendMessage";
 import { useAuth } from "@/context/Auth";
 import { useErrorNotification } from "@/context/Notification";
 import { useCheckUnauthorized } from "@/utils/useCheckUnauthorized";
+import { useParams } from "next/navigation";
+import { useContent } from "@/context/Content";
+import { kebabCase } from "change-case";
 
 interface Props {
 	text: string;
@@ -29,15 +32,25 @@ export const ChatResponse: React.FC<Props> = ({
 	const lastUserMsg = messages.filter((msg) => msg.user_message).slice(-1)[0];
 	const { authData, isAuth } = useAuth();
 	const { notifyUnauthorized } = useCheckUnauthorized();
+	const { slug } = useParams() as { slug: string };
+	const { content } = useContent();
 	const { data, isFetching, error, isSuccess } = useQuery({
 		queryKey: ["agent_message"],
 		retry: 0,
-		queryFn: () =>
-			getLatestResponse({
+		queryFn: () => {
+			const scenarioUrlString = content.tool_buttons.find(
+				(btn) => kebabCase(btn.name) == slug
+			)?.link;
+			const scenarioUrl = scenarioUrlString && new URL(scenarioUrlString);
+			return getLatestResponse({
 				agent: lastUserMsg.agent,
 				csrfToken: authData.csrf_token!,
 				sessionId: authData.session_id!,
-			}),
+				scenario: scenarioUrl
+					? scenarioUrl?.pathname + scenarioUrl?.search
+					: undefined,
+			});
+		},
 		enabled: Boolean(pending) && isAuth,
 		refetchInterval: (query) => {
 			return query.state.data?.agent_message ? false : 1000;
