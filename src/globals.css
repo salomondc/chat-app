@@ -37,6 +37,16 @@ fieldset[class$="MuiOutlinedInput-notchedOutline"] {
 	@apply min-w-0;
 }
 
+input {
+	&:-webkit-autofill::first-line,
+	&:-webkit-autofill,
+	&:-webkit-autofill:hover,
+	&:-webkit-autofill:focus,
+	&:-webkit-autofill:active {
+		@apply shadow-[0_0_0_30px_white_inset];
+	}
+}
+
 body {
 	@apply font-urbanist text-foreground bg-background antialiased;
 }
