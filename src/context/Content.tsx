@@ -1,5 +1,9 @@
 import { useContentData } from "@/api/content";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useEffect } from "react";
+import { useErrorNotification } from "./Notification";
+import { useAuth } from "./Auth";
+import { FullScreenLoading } from "@/components";
+import { useCheckUnauthorized } from "@/utils/useCheckUnauthorized";
 
 const initialData = {
 	isLoading: true,
@@ -67,7 +71,29 @@ export interface ContentContextType {
 export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
-	const { data } = useContentData();
+	const { logout } = useAuth();
+	const { data, error } = useContentData();
+	const { notifyUnauthorized } = useCheckUnauthorized();
+
+	useErrorNotification({
+		error,
+		notification: {
+			description:
+				"Something went wrong while trying to fetch the main page's content.",
+			actionLabel: "Back to login",
+			onClose: logout,
+		},
+	});
+
+	useEffect(() => {
+		if (data?.auth === false) {
+			notifyUnauthorized(data.auth_error);
+		}
+	}, [data]);
+
+	if (data?.auth === false) {
+		return <FullScreenLoading />;
+	}
 
 	const contentData = data ? { content: data, isLoading: false } : initialData;
 

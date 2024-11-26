@@ -1,6 +1,6 @@
 "use client";
 import { IconButton, InputAdornment } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { Button, Icons, TextField } from "..";
@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { userLogin } from "@/api/login";
 import { useAuth } from "@/context/Auth";
+import { useErrorNotification } from "@/context/Notification";
 
 export const LoginForm = () => {
 	const [hidePassword, setHidePassword] = useState(true);
@@ -18,6 +19,33 @@ export const LoginForm = () => {
 		password: yup.string().required("Password is required"),
 	});
 	const { validate, setCookies } = useAuth();
+	const { mutate, isPending, error } = useMutation({
+		mutationFn: userLogin,
+		retry: 1,
+		onSuccess: (data) => {
+			if (data?.success != false && data) {
+				// Login Succesful
+				setCookies({
+					csrf_token: data.csrf_token!,
+					scenario_id: data.scenario_id!,
+					session_id: data.session_id!,
+					user_id: data.user!.id,
+					user_name: data.user!.name,
+				});
+				validate();
+				router.push("/chat");
+			} else {
+				setErrors({ password: data?.message, user: data?.message });
+			}
+		},
+	});
+
+	useErrorNotification({
+		error,
+		notification: {
+			description: "Something went wrong when trying to login.",
+		},
+	});
 
 	const {
 		values,
@@ -40,29 +68,12 @@ export const LoginForm = () => {
 			});
 		},
 	});
-	const { mutate, isPending } = useMutation({
-		mutationFn: userLogin,
-		onSuccess: (data) => {
-			if (data?.success != false && data) {
-				// Login Succesful
-				setCookies({
-					csrf_token: data.csrf_token!,
-					scenario_id: data.scenario_id!,
-					session_id: data.session_id!,
-					user_id: data.user!.id,
-					user_name: data.user!.name,
-				});
-				validate();
-				router.push("/chat");
-			} else {
-				setErrors({ password: data?.message, user: data?.message });
-			}
-		},
-	});
 
 	return (
 		<form
 			id="login-form"
+			noValidate
+			autoFocus
 			onSubmit={handleSubmit}
 			className="flex flex-col m-20 flex-grow justify-center gap-4 max-sm:m-4">
 			<h1 className="text-2.5xl font-medium mx-auto">
@@ -80,6 +91,9 @@ export const LoginForm = () => {
 			<div className="flex flex-col">
 				<TextField
 					id="password"
+					inputProps={{
+						autoComplete: "new-password",
+					}}
 					value={values.password}
 					onChange={handleChange}
 					onBlur={handleBlur}

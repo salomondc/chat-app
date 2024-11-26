@@ -1,6 +1,10 @@
 "use client";
 import { createContext, useContext, useState } from "react";
 import Cookies from "js-cookie";
+import { useMutation } from "@tanstack/react-query";
+import { userLogout } from "@/api/login";
+import { useRouter } from "next/navigation";
+import { getErrorNotificationProps, useNotification } from "./Notification";
 
 interface AuthData {
 	scenario_id?: string;
@@ -15,7 +19,10 @@ interface AuthContextType {
 	isAuth: boolean;
 	validate: () => boolean;
 	setCookies: (data: AuthData) => void;
-	clearCookies: () => void;
+	logout: () => void;
+	isPendingLogout: boolean;
+	isSuccessLogout: boolean;
+	resetLogout: () => void;
 	setAuth: React.Dispatch<React.SetStateAction<AuthData>>;
 }
 
@@ -24,7 +31,10 @@ const AuthContext = createContext<AuthContextType>({
 	isAuth: false,
 	setAuth: () => {},
 	setCookies: () => {},
-	clearCookies: () => {},
+	logout: () => {},
+	isPendingLogout: false,
+	isSuccessLogout: false,
+	resetLogout: () => {},
 	validate: () => false,
 });
 
@@ -32,6 +42,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
 	const [authData, setAuth] = useState<AuthData>({});
+	const router = useRouter();
+	const { showNotification } = useNotification();
+	const {
+		mutate: mutateLogout,
+		isPending: isPendingLogout,
+		isSuccess: isSuccessLogout,
+		reset: resetLogout,
+	} = useMutation({
+		mutationFn: userLogout,
+		onSuccess: () => {
+			setAuth({});
+			clearCookies();
+			router.push("/");
+			return;
+		},
+		onError: (error) => {
+			showNotification({
+				...getErrorNotificationProps(error),
+				description: "Something went wrong when trying to logout.",
+			});
+		},
+	});
 
 	const isAuth = Boolean(authData.session_id);
 
@@ -65,9 +97,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 		document.cookie = `user_name=${data.user_name}; path=/; secure; samesite=strict; max-age=3600`;
 	};
 
+	const logout = () => {
+		mutateLogout();
+	};
+
 	return (
 		<AuthContext.Provider
-			value={{ authData, setAuth, isAuth, validate, setCookies, clearCookies }}>
+			value={{
+				authData,
+				setAuth,
+				isAuth,
+				validate,
+				setCookies,
+				logout,
+				isPendingLogout,
+				isSuccessLogout,
+				resetLogout,
+			}}>
 			{children}
 		</AuthContext.Provider>
 	);

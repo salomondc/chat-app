@@ -8,6 +8,8 @@ import { useEffect } from "react";
 import { MarkdownRenderer } from "./MarkdownRenderer";
 import { useSendMessage } from "@/utils/useSendMessage";
 import { useAuth } from "@/context/Auth";
+import { useErrorNotification } from "@/context/Notification";
+import { useCheckUnauthorized } from "@/utils/useCheckUnauthorized";
 
 interface Props {
 	text: string;
@@ -26,8 +28,10 @@ export const ChatResponse: React.FC<Props> = ({
 	const queryClient = useQueryClient();
 	const lastUserMsg = messages.filter((msg) => msg.user_message).slice(-1)[0];
 	const { authData, isAuth } = useAuth();
-	const { data, isFetching } = useQuery({
+	const { notifyUnauthorized } = useCheckUnauthorized();
+	const { data, isFetching, error, isSuccess } = useQuery({
 		queryKey: ["agent_message"],
+		retry: 0,
 		queryFn: () =>
 			getLatestResponse({
 				agent: lastUserMsg.agent,
@@ -39,6 +43,16 @@ export const ChatResponse: React.FC<Props> = ({
 			return query.state.data?.agent_message ? false : 1000;
 		},
 		refetchOnWindowFocus: false,
+	});
+	useErrorNotification({
+		error,
+		notification: {
+			description:
+				"Something went wrong when trying to recieve the chat response.",
+			onOpen: () => {
+				setMessages((prev) => prev.slice(0, -1));
+			},
+		},
 	});
 	const { send } = useSendMessage();
 
@@ -54,6 +68,12 @@ export const ChatResponse: React.FC<Props> = ({
 				newArr[last] = data;
 				return newArr;
 			});
+		}
+		if (isSuccess && data?.auth === false) {
+			setMessages((prev) =>
+				prev.filter((x) => x.agent_message?.message != ".")
+			);
+			notifyUnauthorized(data.auth_error);
 		}
 	}, [data]);
 

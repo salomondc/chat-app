@@ -1,4 +1,4 @@
-import { api } from ".";
+import { UnauthorizedResponse, api } from ".";
 
 interface GetLatestResponseArgs {
 	agent?: string;
@@ -11,7 +11,7 @@ export const getLatestResponse = async ({
 	csrfToken,
 	sessionId,
 }: GetLatestResponseArgs) => {
-	const response = await api.post<MessageData>(
+	const response = await api.post<MessageData & UnauthorizedResponse>(
 		"/agents_test/run",
 		{
 			agent_mode: "check_for_response",
@@ -61,7 +61,7 @@ interface sendMessageData {
 }
 
 export const sendMessage = async (data: sendMessageData) => {
-	const response = await api.post<MessageData>(
+	const response = await api.post<MessageData & UnauthorizedResponse>(
 		"/agents_test/run",
 		{
 			agent_mode: "user_message",

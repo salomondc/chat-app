@@ -1,25 +1,14 @@
 "use client";
-import { userLogout } from "@/api/login";
 import { Icons } from "@/components";
 import { useAuth } from "@/context/Auth";
 import { useContent } from "@/context/Content";
 import { Button, IconButton, Popover } from "@mui/material";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const FloatingLogoutMenu = ({}) => {
 	const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-	const { clearCookies, setAuth } = useAuth();
-	const router = useRouter();
+	const { logout, isPendingLogout } = useAuth();
 	const { content } = useContent();
-
-	const { mutate: logout, isPending } = useMutation({
-		mutationFn: userLogout,
-		onSuccess: () => {
-			router.push("/");
-		},
-	});
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -27,12 +16,6 @@ export const FloatingLogoutMenu = ({}) => {
 
 	const handleClose = () => {
 		setAnchorEl(null);
-	};
-
-	const handleLogout = () => {
-		setAuth({});
-		clearCookies();
-		logout();
 	};
 
 	const open = Boolean(anchorEl);
@@ -74,11 +57,11 @@ export const FloatingLogoutMenu = ({}) => {
 					},
 				}}>
 				<Button
-					onClick={handleLogout}
+					onClick={logout}
 					className={`${
-						isPending ? "" : "min-w-64"
+						isPendingLogout ? "" : "min-w-64"
 					} flex justify-start px-3 py-2 text-foreground hover:bg-light-gray normal-case font-urbanist text-base font-normal gap-2`}>
-					{isPending ? (
+					{isPendingLogout ? (
 						<>
 							<Icons.Loading />
 						</>

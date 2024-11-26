@@ -6,3 +6,4 @@ export * from "./Chat";
 export * from "./Login";
 export * from "./ChatHistory";
 export * from "./FullScreenLoading";
+export * from "./NotificationModal";

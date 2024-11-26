@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { api } from ".";
+import { UnauthorizedResponse, api } from ".";
 import { ContentContextType } from "@/context/Content";
 import { queryOptions } from ".";
 import { useAuth } from "@/context/Auth";
@@ -19,7 +19,7 @@ export const fetchContentData = async (
 
 export const useContentData = () => {
 	const { authData, isAuth } = useAuth();
-	return useQuery<ContentContextType>({
+	return useQuery<ContentContextType & UnauthorizedResponse>({
 		queryKey: ["content"],
 		queryFn: () => fetchContentData(authData.session_id!, authData.csrf_token!),
 		enabled: isAuth,

@@ -9,3 +9,8 @@ export const queryOptions = {
 	cacheTime: 1000 * 60 * 10,
 	refetchOnWindowFocus: false,
 };
+
+export interface UnauthorizedResponse {
+	auth?: false;
+	auth_error?: string;
+}
