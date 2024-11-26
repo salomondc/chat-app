@@ -12,7 +12,6 @@ interface TextFieldProps {
 
 export const TextField = ({
 	required,
-	ref,
 	...props
 }: OutlinedInputProps & TextFieldProps) => {
 	return (

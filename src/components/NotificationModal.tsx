@@ -80,7 +80,7 @@ export const NotificationModal = ({
 };
 
 const Backdrop = React.forwardRef<HTMLDivElement, { open?: boolean }>(
-	(props, ref) => {
+	function BackdropComponent(props, ref) {
 		const { open, ...other } = props;
 		return (
 			<Fade
