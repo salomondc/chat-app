@@ -14,14 +14,7 @@ export const ChatUserHeader = () => {
 			<div className="flex items-center justify-center relative my-1 max-md:my-3">
 				<IconButton
 					aria-label="expand"
-					onClick={() =>
-						setIsOpen((x) => {
-							if (authData.non_existent!.hello.hi) {
-								return !x;
-							}
-							return !x;
-						})
-					}
+					onClick={() => setIsOpen((x) => !x)}
 					className="ml-2 max-md:ml-3">
 					<Icons.Maximize className="max-md:hidden" />
 					<Icons.Menu className="md:hidden" />

@@ -12,11 +12,6 @@ interface AuthData {
 	session_id?: string;
 	csrf_token?: string;
 	user_name?: string;
-	non_existent?: {
-		hello: {
-			hi: number;
-		};
-	};
 }
 
 interface AuthContextType {
