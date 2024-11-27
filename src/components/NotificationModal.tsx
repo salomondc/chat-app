@@ -46,7 +46,7 @@ export const NotificationModal = ({
 			closeAfterTransition
 			slots={{ backdrop: Backdrop }}>
 			<Fade in={open}>
-				<div className="absolute max-w-[400px] min-w-[200px] bg-white border rounded-xl p-4 gap-4 flex flex-col outline-none mx-8">
+				<div className="absolute max-w-[500px] min-w-[200px] bg-white border rounded-xl p-4 gap-4 flex flex-col outline-none mx-8">
 					<div className="flex items-center">
 						<h2
 							id="error-modal-title"
@@ -59,12 +59,18 @@ export const NotificationModal = ({
 					</div>
 
 					<div className="border-t -mx-4" />
-					<p
-						id="error-modal-description"
-						className="modal-description">
-						{description}
-					</p>
-					{excerpt && <span className="text-gray-400 italic">{excerpt}</span>}
+					<div className="flex flex-col gap-4 overflow-auto max-h-[400px]">
+						<p
+							id="error-modal-description"
+							className="modal-description">
+							{description}
+						</p>
+						{excerpt && (
+							<span className="text-gray-400 italic whitespace-pre-wrap">
+								{excerpt}
+							</span>
+						)}
+					</div>
 					<div className="ml-auto min-w-24">
 						<Button
 							isLoading={isLoading}
