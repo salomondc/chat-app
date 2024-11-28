@@ -1,4 +1,5 @@
 "use client";
+import { getSite } from "@/api/sites";
 import {
 	ChatContainer,
 	ChatHistoryContainer,
@@ -11,16 +12,9 @@ import {
 	useNotification,
 } from "@/context/Notification";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { kebabCase } from "change-case";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-
-const getSite = async (siteUrl: string) => {
-	const response = await axios.get<string>("/api/" + siteUrl);
-
-	return response.data;
-};
 
 export default function SavedChat() {
 	const { slug } = useParams() as { slug: string };
