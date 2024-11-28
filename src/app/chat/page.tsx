@@ -8,16 +8,8 @@ import {
 	FullScreenLoading,
 } from "@/components";
 import { useContent } from "@/context/Content";
-import { useEffect } from "react";
-
 export default function Chat() {
 	const { isLoading } = useContent();
-
-	useEffect(() => {
-		window.onerror = (event, source, lineno, colno, error) => {
-			console.log(event, source, lineno, colno, error);
-		};
-	}, []);
 
 	return (
 		<>

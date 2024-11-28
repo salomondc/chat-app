@@ -4,6 +4,7 @@ import { useContent } from "@/context/Content";
 import { useMenu } from "@/context/Menu";
 import { useMobileCheck } from "@/utils/useMobileCheck";
 import { Button } from "@mui/material";
+import { kebabCase } from "change-case";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -11,11 +12,11 @@ export const MenuOptions = () => {
 	const {
 		content: { main_buttons },
 	} = useContent();
+	type BtnKey = keyof typeof main_buttons;
+
+	const { setIsOpen } = useMenu();
 	const router = useRouter();
 	const { isMobile } = useMobileCheck();
-	const { setIsOpen } = useMenu();
-
-	type BtnKey = keyof typeof main_buttons;
 
 	const waitForAnimationOnMobile = (
 		e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -39,12 +40,14 @@ export const MenuOptions = () => {
 
 				return (
 					<div
-						key={`main-${item.link}-${i}`}
+						key={`scnr-${item.link}-${i}`}
 						className="group">
 						<Link
-							id={`main-${item.link}-${i}`}
-							href={item.link}
-							onClick={(e) => waitForAnimationOnMobile(e, item.link)}>
+							id={`scnr-${item.link}-${i}`}
+							href={`/site/${kebabCase(item.name)}`}
+							onClick={(e) =>
+								waitForAnimationOnMobile(e, `/site/${kebabCase(item.name)}`)
+							}>
 							<Button
 								fullWidth
 								aria-label="preferences"

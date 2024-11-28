@@ -3,6 +3,7 @@ import "../globals.css";
 import { ReactQueryProvider } from "@/context/reactQueryProvider";
 import { AuthProvider } from "@/context/Auth";
 import { NotificationProvider } from "@/context/Notification";
+import Script from "next/script";
 
 export const metadata: Metadata = {
 	title: "Lumnar Tech Advisor",
@@ -32,6 +33,7 @@ export default function RootLayout({
 				href="./favicon.ico"
 				type="image/x-icon"
 			/>
+			<Script src="https://cdn.tailwindcss.com"></Script>
 			<body>
 				<ReactQueryProvider>
 					<NotificationProvider>

@@ -29,7 +29,6 @@ export default function Error({
 			},
 			actionLabel: "Refresh",
 		});
-		console.log(mappedStack);
 	};
 
 	useEffect(() => {

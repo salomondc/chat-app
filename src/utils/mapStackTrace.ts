@@ -56,5 +56,5 @@ export async function mapStackTrace(stack: string) {
 
 	return mappedStack
 		.filter((x) => x.includes("src"))
-		.map((x) => `at ${x.match(/[^/]+$/)?.[0].replace(")", "")}`);
+		.map((x) => `at ${x.match(/\.\/.*(?=\))/)?.[0].replace(")", "")}`);
 }
